@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { IoCartOutline } from "react-icons/io5";
 
 const Navbar = () => {
+  const cart = useSelector((state) => state.cart.items);
   return (
     <>
       {/* Navigation bar container */}
@@ -17,6 +20,9 @@ const Navbar = () => {
                   src="https://pnghq.com/wp-content/uploads/2023/02/harry-potter-golden-snitch-png-6960-768x431.png"
                   alt="Company"
                 />
+                <p className="rounded-md text-xl  px-3 py-2 text-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                  ShopMart
+                </p>
               </div>
 
               {/* Navigation links */}
@@ -39,9 +45,13 @@ const Navbar = () => {
               <div className="relative ml-3">
                 <Link
                   to={"/cart"}
-                  className="rounded-md  px-3 py-2 text-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                  className="relative rounded-md px-3 py-2 text-md font-medium text-gray-300"
                 >
-                  Cart
+                  <IoCartOutline size={30} />
+                  {/* Cart count badge */}
+                  <p className="absolute top-5 -right-7 w-5 h-5 flex items-center justify-center bg-red-500 text-white text-xs font-bold rounded-full">
+                    {cart?.length}
+                  </p>
                 </Link>
               </div>
             </div>
