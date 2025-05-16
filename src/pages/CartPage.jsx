@@ -1,6 +1,10 @@
 import React from "react"; // Importing React for component rendering
 import { useDispatch, useSelector } from "react-redux"; // Importing Redux hooks for state management
-import { removeFromCart, updateQuantity } from "../store/slices/cartSlice.js"; // Importing actions to modify cart state
+import {
+  clearCart,
+  removeFromCart,
+  updateQuantity,
+} from "../store/slices/cartSlice.js"; // Importing actions to modify cart state
 import { FaTrash } from "react-icons/fa"; // Importing trash icon for the remove button
 
 const CartPage = () => {
@@ -8,7 +12,11 @@ const CartPage = () => {
   const cart = useSelector((state) => state.cart.items); // Accessing cart items from Redux store
 
   console.log(cart); // Debugging: Logging cart data in console
-
+  const totalPrice = cart?.reduce((total, item) => {
+    const subTotal = item.price * item.quantity;
+    total += subTotal;
+    return total;
+  }, 0);
   return (
     <div className="p-4 mb-4">
       {/* Page Heading */}
@@ -73,6 +81,15 @@ const CartPage = () => {
             </button>
           </div>
         ))}
+      </div>
+      <div className="lg:w-4xl mx-auto flex items-center justify-between border border-gray-300 rounded-lg p-4 shadow-md bg-white m-2">
+        <h2>Total: ${totalPrice.toFixed(2)}</h2>
+        <button
+          onClick={() => dispatch(clearCart())}
+          className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 ml-2 cursor-pointer"
+        >
+          Clear Cart
+        </button>
       </div>
     </div>
   );
