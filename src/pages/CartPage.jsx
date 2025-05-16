@@ -1,15 +1,20 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart, updateQuantity } from "../store/slices/cartSlice.js";
-import { FaTrash  } from "react-icons/fa";
+import React from "react"; // Importing React for component rendering
+import { useDispatch, useSelector } from "react-redux"; // Importing Redux hooks for state management
+import { removeFromCart, updateQuantity } from "../store/slices/cartSlice.js"; // Importing actions to modify cart state
+import { FaTrash } from "react-icons/fa"; // Importing trash icon for the remove button
 
 const CartPage = () => {
-  const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart.items);
-  console.log(cart);
+  const dispatch = useDispatch(); // Hook to send actions to Redux store
+  const cart = useSelector((state) => state.cart.items); // Accessing cart items from Redux store
+
+  console.log(cart); // Debugging: Logging cart data in console
+
   return (
     <div className="p-4 mb-4">
+      {/* Page Heading */}
       <h1 className="text-center text-3xl m-4 font-bold">Cart</h1>
+
+      {/* Cart Items Container */}
       <div className="w-full">
         {cart.map((item) => (
           <div
@@ -31,20 +36,24 @@ const CartPage = () => {
 
             {/* Quantity Controls */}
             <div className="flex items-center space-x-2">
+              {/* Decrease Quantity Button */}
               <button
-                className="px-2 py-1 cursor-pointer"
+                className="px-2 py-1 cursor-pointer bg-gray-200 rounded hover:bg-gray-300"
                 onClick={() => {
                   dispatch(updateQuantity({ type: "Decrement", id: item.id }));
                 }}
               >
                 -
               </button>
+
+              {/* Display Current Quantity */}
               <p className="w-12 text-center border border-gray-300 rounded-md">
                 {item.quantity}
               </p>
 
+              {/* Increase Quantity Button */}
               <button
-                className="px-2 py-1 cursor-pointer"
+                className="px-2 py-1 cursor-pointer bg-gray-200 rounded hover:bg-gray-300"
                 onClick={() => {
                   dispatch(updateQuantity({ type: "Increment", id: item.id }));
                 }}
@@ -55,12 +64,12 @@ const CartPage = () => {
 
             {/* Remove Button */}
             <button
-              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 ml-2"
+              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 ml-2 cursor-pointer"
               onClick={() => {
                 dispatch(removeFromCart({ id: item.id }));
               }}
             >
-              <FaTrash size={15}/>
+              <FaTrash size={15} />
             </button>
           </div>
         ))}
@@ -69,4 +78,4 @@ const CartPage = () => {
   );
 };
 
-export default CartPage;
+export default CartPage; // Exporting CartPage component for use in routing
